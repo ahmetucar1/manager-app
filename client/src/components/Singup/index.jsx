@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const Signup = () => {
@@ -11,7 +11,27 @@ const Signup = () => {
 	});
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
-	const navigate = useNavigate();
+  const [showRequirements, setShowRequirements] = useState(false);
+  const [passwordValidations, setPasswordValidations] = useState({
+    minLength: false,
+    hasUpper: false,
+    hasLower: false,
+    hasNumber: false,
+    hasSymbol: false
+  });
+
+  const checkPasswordValidation = (e) => {
+    const { value } = e.target;
+    setPasswordValidations({
+      minLength: value.length >= 8,
+      hasUpper: /[A-Z]/.test(value),
+      hasLower: /[a-z]/.test(value),
+      hasNumber: /[0-9]/.test(value),
+      hasSymbol: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+    });
+  };
+
+
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -23,7 +43,6 @@ const Signup = () => {
 			const url = "http://localhost:3000/api/signup/"; 
 			const { data: res } = await axios.post(url, data);
 			setSuccess(true)
-			navigate("/login");
 			console.log(res.message);
 		} catch (error) {
 			if (
@@ -72,7 +91,10 @@ const Signup = () => {
             autoComplete="on"
             value={data.password}
             onChange={handleChange}
-            />
+            onKeyUp={checkPasswordValidation}
+            onClick={() => setShowRequirements(!showRequirements)}
+          />
+
             </div>
             <button className="bg-indigo-500 text-center text-white py-2 px-4 rounded-lg hover:bg-indigo-600">Register</button>
             <Link to={"/login"}>
@@ -80,7 +102,17 @@ const Signup = () => {
             </Link>
             </form>
             {error && <p className="text-red-500">{error}</p>}
-            {success && <p className="text-green-500">Kayıt Başarılı</p>}
+            {success && <p className="text-green-500 mt-4">Kayıt Başarılı</p>}
+            {showRequirements ? (
+            <div className="block mt-10 ml-8">
+            <p className="block">Şifre Gereksinimleri:</p>
+            <span className={`block mt-3 ${passwordValidations.minLength ? 'font-normal' : 'font-extralight'}`}>Şifre en az 8 karakterden oluşmalıdır</span>
+            <span className={`block mt-1 ${passwordValidations.hasUpper ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir büyük harf içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasLower ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir küçük harf içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasNumber ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir rakam içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasSymbol ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir sembol içermelidir.</span>
+            </div>
+            ) : null}
             </div>
 	);
 };

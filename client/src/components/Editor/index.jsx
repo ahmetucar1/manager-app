@@ -3,6 +3,8 @@ import Table from '../Table'
 import Navbar from '../Navbar'
 import { FaWindowClose, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
+
+
 const Editor = () => {
   const [selectedFields, setSelectedFields] = useState(["Avatar", "Name", "Email", "Gender"]);
   const fields = ["Avatar", "Name", "Email", "Gender", "Country", "Role", "Company", "Departman",  "Phone", "Job"];
@@ -43,20 +45,20 @@ const Editor = () => {
   return (
     <div className="flex">
       <Navbar></Navbar>
-      <div className="absolute h-full left-20 w-auto bg-gray-200 overflow-y-scroll p-4 ">
+      <div className="fixed h-full left-20 w-auto bg-gray-200 overflow-y-scroll p-4 ">
         <div className="ml-2 mt-4">
         <h1 className="text-xl font-medium mb-4">Field Selection</h1>
         <p className="text-gray-600 mb-4">Choose what fields you want displayed on the table</p>
         <div className="mb-4">
         <p className='text-base font-medium mb-2'>Select Field</p>
         <select placeholder='Select Field' className='w-60 h-60 px-4 mt-2 ml-1 rounded-md' multiple onChange={handleFieldSelection}>
-      {fields.map((field) => (
+      {fields && fields.map((field) => (
         <option className='p-1 border' key={field} value={field}>{field}</option>
       ))}
     </select>
           </div>
         <div className="block">
-        {selectedFields.map((field, index) => (
+        {selectedFields && selectedFields.map((field, index) => (
             <div key={field} className="w-full px-2 mb-4">
             <div className="bg-white rounded-md py-3 px-1 flex justify-between items-center">
               <span className="text-gray-700">{field}</span>
