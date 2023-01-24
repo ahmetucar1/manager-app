@@ -45,17 +45,21 @@ const Editor = () => {
   return (
     <div className="flex">
       <Navbar></Navbar>
-      <div className="fixed h-full left-20 w-auto bg-gray-200 overflow-y-scroll p-4 ">
+      <div className="h-full w-auto ml-20 bg-gray-200 overflow-y-scroll p-4 ">
         <div className="ml-2 mt-4">
         <h1 className="text-xl font-medium mb-4">Field Selection</h1>
         <p className="text-gray-600 mb-4">Choose what fields you want displayed on the table</p>
         <div className="mb-4">
         <p className='text-base font-medium mb-2'>Select Field</p>
-        <select placeholder='Select Field' className='w-60 h-60 px-4 mt-2 ml-1 rounded-md' multiple onChange={handleFieldSelection}>
-      {fields && fields.map((field) => (
-        <option className='p-1 border' key={field} value={field}>{field}</option>
-      ))}
-    </select>
+        <div className="relative">
+        <select
+        className='w-60 h-60 px-4 mt-2 ml-1 rounded-md appearance-none border focus:outline-none focus:shadow-outline' 
+        multiple onChange={handleFieldSelection}>
+        {fields && fields.map((field) => (
+        <option className='p-1' key={field} value={field}>{field}</option>
+        ))}
+       </select>
+       </div>
           </div>
         <div className="block">
         {selectedFields && selectedFields.map((field, index) => (

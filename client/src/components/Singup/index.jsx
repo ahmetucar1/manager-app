@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Signup = () => {
@@ -11,6 +11,7 @@ const Signup = () => {
 	});
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
   const [showRequirements, setShowRequirements] = useState(false);
   const [passwordValidations, setPasswordValidations] = useState({
     minLength: false,
@@ -40,8 +41,9 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "http://localhost:3000/api/signup/"; 
+			const url = "http://localhost:3000/api/signup/" 
 			const { data: res } = await axios.post(url, data);
+      navigate("/login");
 			setSuccess(true)
 			console.log(res.message);
 		} catch (error) {

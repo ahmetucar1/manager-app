@@ -3,7 +3,7 @@ import Navbar from "../Navbar";
 import Table from "../Table";
 
 const Main = () => {
-  const [selectedFields] = useState(["Avatar", "Name", "Email", "Gender", "Country", "Role", "Company", "Departman",  "Phone", "Job"]);
+  const [selectedFields] = useState(["Avatar", "Name", "Email", "Gender", "Country"]);
 
 
     return (

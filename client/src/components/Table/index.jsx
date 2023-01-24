@@ -6,29 +6,33 @@ const Table = ({selectedFields}) => {
   const { data } = useContext(DataContext);
 
   return (
-    <div className="absolute table w-auto overflow-x-scroll overflow-y-scroll">
-      <table className="table-auto h-full border w-full border-collapse">
-        <thead className="bg-gray-300">
-          <tr>
+    <div className="fixed ml-table bg-white rounded-lg overflow-x-auto">
+    <table className="table-auto w-full text-gray-800">
+      <thead className="bg-indigo-500">
+        <tr>
+          {selectedFields && selectedFields.map((field) => (
+            <th key={field} className="px-6 py-3 text-white font-medium">{field}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data && data.map((item) => (
+          <tr key={item.id} className="hover:bg-gray-100">
             {selectedFields && selectedFields.map((field) => (
-              <th key={field} className="pl-3 py-2">{field}</th>
+              <td key={field} className="px-6 py-4">
+                {field === "Avatar" ? (
+                  <img src={item[field]} alt={item.first_name} className="w-12 h-12 rounded-full object-cover border-indigo-500" />
+                ) : (
+                  item[field]
+                )}
+              </td>
             ))}
           </tr>
-        </thead>
-        <tbody className="">
-          {data && data.map((item) => (
-            <tr key={item.id}>
-              {selectedFields && selectedFields.map((field) => (
-                <td key={field} className="pl-3 py-2">
-                {field === "Avatar" ? (
-                <img src={item[field]} alt={item.first_name} className="w-16 h-16 rounded-7 object-fill" />
-                ) : (
-                item[field])}
-                </td>))}
-                </tr>))}
-            </tbody>
-        </table>
-      </div>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  
     )
    }
                     

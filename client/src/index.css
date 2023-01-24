@@ -12,8 +12,8 @@ code {
 		monospace;
 }
 
-.table {
-	left: 32rem
+.ml-table {
+	margin-left: 32rem;
 }
 
 @tailwind base;
