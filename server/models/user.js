@@ -11,13 +11,6 @@ const userSchema = new mongoose.Schema({
 
 });
 
-userSchema.methods.generateAuthToken = function () {
-	const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-		expiresIn: "90d",
-	});
-	return token;
-};
-
 const User = mongoose.model("user", userSchema);
 
 const validate = (data) => {
@@ -27,6 +20,13 @@ const validate = (data) => {
 		password: passwordComplexity().required().label("password"),
 	});
 	return schema.validate(data);
+};
+
+userSchema.methods.generateAuthToken = function () {
+	const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
+		expiresIn: "90d",
+	});
+	return token;
 };
 
 module.exports = { User, validate };
