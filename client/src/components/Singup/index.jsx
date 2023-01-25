@@ -12,6 +12,7 @@ const Signup = () => {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const [loginButton, setLoginButton] = useState(false);
   const [showRequirements, setShowRequirements] = useState(false);
   const [passwordValidations, setPasswordValidations] = useState({
     minLength: false,
@@ -28,7 +29,7 @@ const Signup = () => {
       hasUpper: /[A-Z]/.test(value),
       hasLower: /[a-z]/.test(value),
       hasNumber: /[0-9]/.test(value),
-      hasSymbol: /[!@#$%^&*(),.?":{}|<>]/.test(value)
+      hasSymbol: /[!@#$%^&*(),.-?":{}|<>]/.test(value)
     });
   };
 
@@ -41,10 +42,11 @@ const Signup = () => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const url = "https://manageerr.netlify.app/signup" 
+			const url = "http://localhost:3000/api/signup" 
 			const { data: res } = await axios.post(url, data);
-      navigate("/login");
+      navigate("/signup");
 			setSuccess(true)
+      setLoginButton(true)
 			console.log(res.message);
 		} catch (error) {
 			if (
@@ -59,8 +61,8 @@ const Signup = () => {
 
 	return (
 		<div className="flex justify-center flex-col items-center h-screen">
-       <h1 className="text-3xl font-bold "> ÜYE OL </h1>
-        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md">
+       <h1 className="text-3xl font-bold mb-2"> ÜYE OL </h1>
+        <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow">
         <div className="mb-4">
           <label className="block text-gray-700 font-medium mb-2">Name</label>
           <input
@@ -94,7 +96,7 @@ const Signup = () => {
             value={data.password}
             onChange={handleChange}
             onKeyUp={checkPasswordValidation}
-            onClick={() => setShowRequirements(!showRequirements)}
+            onFocus={() => setShowRequirements(!showRequirements)}
           />
 
             </div>
@@ -105,14 +107,17 @@ const Signup = () => {
             </form>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500 mt-4">Kayıt Başarılı</p>}
+            <Link to={"/login"}>
+            {loginButton && <button className=" mt-4 bg-green-500 text-center text-white py-2 px-4 rounded-lg hover:bg-green-600">Giriş Yap</button>}
+            </Link>
             {showRequirements ? (
-            <div className="block mt-10 ml-8">
+            <div className="block mt-10 ml-40">
             <p className="block">Şifre Gereksinimleri:</p>
-            <span className={`block mt-3 ${passwordValidations.minLength ? 'font-normal' : 'font-extralight'}`}>Şifre en az 8 karakterden oluşmalıdır</span>
-            <span className={`block mt-1 ${passwordValidations.hasUpper ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir büyük harf içermelidir.</span>
-            <span className={`block mt-1 ${passwordValidations.hasLower ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir küçük harf içermelidir.</span>
-            <span className={`block mt-1 ${passwordValidations.hasNumber ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir rakam içermelidir.</span>
-            <span className={`block mt-1 ${passwordValidations.hasSymbol ? 'font-normal' : 'font-extralight'}`}>Şifre en az bir sembol içermelidir.</span>
+            <span className={`block mt-3 ${passwordValidations.minLength ? 'font-normal text-green-500' : 'font-extralight '}`}>Şifre en az 8 karakterden oluşmalıdır</span>
+            <span className={`block mt-1 ${passwordValidations.hasUpper ? 'font-normal text-green-500' : 'font-extralight '}`}>Şifre en az bir büyük harf içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasLower ? 'font-normal text-green-500' : 'font-extralight '}`}>Şifre en az bir küçük harf içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasNumber ? 'font-normal text-green-500' : 'font-extralight '}`}>Şifre en az bir rakam içermelidir.</span>
+            <span className={`block mt-1 ${passwordValidations.hasSymbol ? 'font-normal text-green-500' : 'font-extralight '}`}>Şifre en az bir sembol içermelidir. Örnek[.,!?@#$%^&*()?":{}|<></>] </span>
             </div>
             ) : null}
             </div>
