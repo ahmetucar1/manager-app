@@ -7,6 +7,7 @@ import Editor from "./components/Editor"
 import {  useNavigate } from "react-router-dom";
 import DataContext from "./DataContext";
 import data from './data'
+import BarChart from "./components/BarChart";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Routes>
             {user ? 
             <React.Fragment>
+                <Route path="/chart" element={<BarChart />} />
                 <Route path="/" element={<Main />} />
                 <Route path="/main" element={<Main />} />
                 <Route path="/editor" element={<Editor />} />

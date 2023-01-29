@@ -16,6 +16,10 @@ code {
 	margin-left: 32rem;
 }
 
+.bar {
+	width: 33rem;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
